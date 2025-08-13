@@ -1,8 +1,10 @@
 import React from "react";
-import { Button, Typography, Container } from "@mui/material";
+import { Button, Typography, Container, Box } from "@mui/material";
 import { useCartStore } from "../store/cartStore";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
+  const navigate = useNavigate();
   const { cart, updateQuantity, removeFromCart } = useCartStore();
 
   const handleUpdateQuantity = (id, qty) => {
@@ -54,6 +56,17 @@ const CartPage = () => {
               </div>
             </div>
           ))}
+          <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end' }}>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              size="large"
+              onClick={() => navigate('/order-success')}
+              disabled={!cart || cart.length === 0}
+            >
+              Continue to Checkout
+            </Button>
+          </Box>
         </>
       )}
     </Container>
