@@ -11,10 +11,12 @@ export const useProductStore = create((set) => ({
   fetchProducts: async () => {
     set({ loading: true, error: null });
     try {
-      const { data } = await axios.get(API_URL);
-      set({ products: data, loading: false });
-      return { success: true, data };
+      const response = await axios.get(API_URL);
+      const products = response.data.data;
+      set({ products, loading: false });
+      return { success: true, data: products };
     } catch (error) {
+      console.error('Error fetching products:', error);
       const message = error.response?.data?.message || 'Failed to fetch products';
       set({ error: message, loading: false });
       return { success: false, message };
